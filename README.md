@@ -3,11 +3,11 @@ A schedule-aware travel planner app that recommends destinations to users and co
 
 ## Roadmap
 
-- [] Login screen with Google Sign-in
-- [] Integration with Calendar API (ContentProvider or GoogleCalendar, either is acceptable)
-- [] Accept details screen with fields for Age, Gender, Budget, Duration of intended stay
-- [] Integration with REST API (please wait on @kanishk98 for this)
-- [] Final result screen with backend-supplied suggestions
+- [ ] Login screen with Google Sign-in
+- [ ] Integration with Calendar API (ContentProvider or GoogleCalendar, either is acceptable)
+- [ ] Accept details screen with fields for Age, Gender, Budget, Duration of intended stay
+- [ ] Integration with REST API (please wait on @kanishk98 for this)
+- [ ] Final result screen with backend-supplied suggestions
 
 ## Contributing 
 
