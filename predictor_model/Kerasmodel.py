@@ -18,7 +18,6 @@ x_train = np.random.randn(tsize, 5)
 y_train = np.random.randint(85, size=(tsize, 1))
 
 df = pd.read_csv("TravelDatabase.csv")
-#df['spend'] = df['spend'].astype('float64').isnull(0.0)
 
 for i in range(tsize):
 	x_train[i][0] =  df['quarter'][i]
