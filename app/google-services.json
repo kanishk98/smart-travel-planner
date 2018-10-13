@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "888489062187",
+    "firebase_url": "https://vacationplanner-4510e.firebaseio.com",
+    "project_id": "vacationplanner-4510e",
+    "storage_bucket": "vacationplanner-4510e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888489062187:android:67e93ecd34c14609",
+        "android_client_info": {
+          "package_name": "com.example.sargam.vacationplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888489062187-4rvpejn1mn2plov1dpdtjrv9jvgbmqho.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sargam.vacationplanner",
+            "certificate_hash": "9003346650b35d09f426b37cf1d872ec5f9ba22e"
+          }
+        },
+        {
+          "client_id": "888489062187-l9lis02orto47s6a6srnm3sbvnavrhnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmI4Tucn3M1iXOenzYrBRLCYyN3eD-HiI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888489062187-l9lis02orto47s6a6srnm3sbvnavrhnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
