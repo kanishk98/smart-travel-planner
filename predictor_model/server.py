@@ -8,7 +8,6 @@ import json
 
 
 def load_model():
-    print(os.getcwd())
     global loaded_model1, loaded_model2, loaded_model3
     json_file = open('src/model1.json', 'r')
     loaded_model_json = json_file.read()
@@ -76,7 +75,6 @@ def categorize(data):
 
 @app.route("/predict", methods=["GET"])
 def json_message():
-    # print(flask.request)
     x_in = np.random.randn(1, 5)
 
     x_in[0][0] = float(flask.request.args.get('quarter'))
