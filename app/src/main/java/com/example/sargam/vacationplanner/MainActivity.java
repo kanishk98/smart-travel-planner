@@ -74,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void continueToRegister(FirebaseUser user) {
+        Intent intent = new Intent(this, SecondActivity.class);
+        intent.putExtra(getString(R.string.username),user.getDisplayName());
+        intent.putExtra(getString(R.string.user_image), user.getPhotoUrl());
+        startActivity(intent);
+    }
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -87,15 +94,15 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-            // if (result.isSuccess())
-            // {
+            if (result.isSuccess())
+             {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-            // }
-            /*else {
+            }
+            else {
                 Log.d(TAG, result.toString());
                 // deleted toast statement because it got triggered on pressing back
-            }*/
+            }
         }
     }
 
@@ -109,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAG", "signInWithCredential:success");
                     FirebaseUser user = mAuth.getCurrentUser();
-                   // updateUI(user);
+                    continueToRegister(user);
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.e("TAG", "signInWithCredential:failure", task.getException());
@@ -125,8 +132,14 @@ public class MainActivity extends AppCompatActivity {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            name = acct.getDisplayName();
-            img = acct.getPhotoUrl().toString();
+            // moving to secondActivity
+            continueToRegister(acct);
         }
+    }
+
+    private void continueToRegister(GoogleSignInAccount acct) {
+        Intent intent = new Intent(this, SecondActivity.class);
+        intent.putExtra(getString(R.string.username), acct.getDisplayName());
+        intent.putExtra(getString(R.string.user_image), acct.getPhotoUrl());
     }
 }
