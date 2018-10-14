@@ -77,7 +77,7 @@ public class SecondActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+        cur = cr.query(uri, EVENT_PROJECTION, CalendarContract.Calendars.VISIBLE + " = 1", null, CalendarContract.Calendars._ID + " ASC");
         // Use the cursor to step through the returned records
         while (cur.moveToNext()) {
             Log.d(TAG, "inside while loop");
