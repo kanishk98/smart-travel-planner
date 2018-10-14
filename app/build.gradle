@@ -21,6 +21,10 @@ configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:26.1.0'
 }
 dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.http-client:google-http-client-gson:1.23.0' exclude module: 'httpclient'
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev260-1.23.0' exclude module: 'httpclient'
+    implementation 'com.google.api-client:google-api-client-android:1.25.0' exclude module: 'httpclient'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
