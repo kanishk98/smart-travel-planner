@@ -13,5 +13,6 @@
         <item>Jul-Sept</item>
         <item>Oct-Dec</item>
     </string-array>
-
+    <string name="username">name</string>
+    <string name="user_image">img</string>
 </resources>

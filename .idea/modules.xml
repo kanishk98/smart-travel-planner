@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VacationPlanner.iml" filepath="$PROJECT_DIR$/VacationPlanner.iml" />
+      <module fileurl="file://C:\Users\kanis\Documents\GitHub\smart-travel-planner\VacationPlanner.iml" filepath="C:\Users\kanis\Documents\GitHub\smart-travel-planner\VacationPlanner.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\kanis\Documents\GitHub\smart-travel-planner\app\app.iml" filepath="C:\Users\kanis\Documents\GitHub\smart-travel-planner\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smart-travel-planner.iml" filepath="$PROJECT_DIR$/smart-travel-planner.iml" />
     </modules>
   </component>
 </project>

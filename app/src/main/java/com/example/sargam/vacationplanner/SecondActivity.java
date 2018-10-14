@@ -32,9 +32,6 @@ public class SecondActivity extends AppCompatActivity {
     TextView Username;
     Spinner gender,quarter;
 
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
