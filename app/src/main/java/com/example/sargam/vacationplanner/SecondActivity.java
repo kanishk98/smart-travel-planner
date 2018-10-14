@@ -1,10 +1,15 @@
 package com.example.sargam.vacationplanner;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,36 +19,33 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.FreeBusyRequest;
-import com.google.api.services.calendar.model.FreeBusyRequestItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
-
-import java.util.Collections;
 
 public class SecondActivity extends AppCompatActivity {
     private Button signOutButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private String name,img,gender_str,quarter_str;
+    private String name, img, gender_str, quarter_str;
     private ImageView profilepic;
     private TextView username;
-    private Spinner gender,quarter;
+    private Spinner gender, quarter;
     private FirebaseUser firebaseUser;
-    private GoogleAccountCredential googleAccountCredential;
     private final String TAG = getClass().getSimpleName();
-    private com.google.api.services.calendar.Calendar client;
-    private final HttpTransport transport = AndroidHttp.newCompatibleTransport();
-    private final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+
+    public static final String[] EVENT_PROJECTION = new String[]{
+            CalendarContract.Calendars._ID,                           // 0
+            CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
+            CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
+    };
+    // The indices for the projection array above.
+    private static final int PROJECTION_ID_INDEX = 0;
+    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
+    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+    private static String calendarEmail;
+    private static String accountType;
 
     @Override
     protected void onStart() {
@@ -56,10 +58,45 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+        // Run query
+        Cursor cur = null;
+        ContentResolver cr = getContentResolver();
+        Uri uri = CalendarContract.Calendars.CONTENT_URI;
+        String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
+                + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
+                + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
+        String[] selectionArgs = new String[]{calendarEmail, accountType};
+        // Submit the query and get a Cursor object back.
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+        // Use the cursor to step through the returned records
+        while (cur.moveToNext()) {
+            Log.d(TAG, "inside while loop");
+            long calID = 0;
+            String displayName = null;
+            String accountName = null;
+            String ownerName = null;
 
-        // initialising Calendar API auth via OAuth
-        googleAccountCredential = GoogleAccountCredential.usingOAuth2(this, Collections.singleton(CalendarScopes.CALENDAR));
-        client = new Calendar.Builder(transport, jsonFactory, googleAccountCredential).setApplicationName(getString(R.string.app_name)).build();
+            // Get the field values
+            calID = cur.getLong(PROJECTION_ID_INDEX);
+            displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
+            accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
+            ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
+            Log.d(TAG, String.valueOf(calID));
+            Log.d(TAG, String.valueOf(displayName));
+            Log.d(TAG, String.valueOf(accountName));
+            Log.d(TAG, String.valueOf(ownerName));
+        }
+
         signOutButton =findViewById(R.id.logout);
         profilepic=findViewById(R.id.imageView);
         username =findViewById(R.id.textView);
