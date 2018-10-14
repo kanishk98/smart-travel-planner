@@ -44,8 +44,8 @@ public class SecondActivity extends AppCompatActivity {
     private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
     private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-    private static String calendarEmail = "akakkar656@gmail.com";
-    private static String accountType = "com.google.calendar";
+    private static String calendarEmail;
+    private static String accountType;
 
     @Override
     protected void onStart() {
