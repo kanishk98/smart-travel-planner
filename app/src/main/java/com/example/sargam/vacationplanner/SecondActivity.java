@@ -91,15 +91,11 @@ public class SecondActivity extends AppCompatActivity {
 
 
 
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        Bundle b=getIntent().getExtras();
-        name=b.getString("name");
-        img=b.getString("img");
-
-
-
-
+        Bundle b = getIntent().getExtras();
+        name = b.getString(getString(R.string.username));
+        img = b.getString(getString(R.string.user_image));
         Username.setText(name);
         //profilepic.setImageResource();
 

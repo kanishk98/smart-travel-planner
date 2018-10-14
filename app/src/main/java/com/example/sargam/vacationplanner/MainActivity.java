@@ -30,14 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private String name,img;
     private static final int RC_SIGN_IN = 2;
     private GoogleApiClient mGoogleApiClient;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private final String TAG = getClass().getSimpleName();
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +39,16 @@ public class MainActivity extends AppCompatActivity {
         signInButton = (SignInButton)findViewById(R.id.start_sign_in);
         mAuth = FirebaseAuth.getInstance();
 
+        if (mAuth.getCurrentUser() != null) {
+            continueToRegister();
+        }
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null) {
-                    Intent i = new Intent(MainActivity.this, SecondActivity.class);
-                    i.putExtra(getString(R.string.username), name);
-                    i.putExtra(getString(R.string.user_image), img);
-                    startActivity(i);
-                }
-            }
-        };
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -82,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+    private void continueToRegister() {
+        Intent intent = new Intent(this, SecondActivity.class);
+        intent.putExtra(getString(R.string.username), mAuth.getCurrentUser().getDisplayName());
+        intent.putExtra(getString(R.string.user_image), mAuth.getCurrentUser().getPhotoUrl());
+        startActivity(intent);
+    }
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -95,15 +87,15 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-            if (result.isSuccess())
-            {
+            // if (result.isSuccess())
+            // {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-            }
-            else {
+            // }
+            /*else {
                 Log.d(TAG, result.toString());
                 // deleted toast statement because it got triggered on pressing back
-            }
+            }*/
         }
     }
 
