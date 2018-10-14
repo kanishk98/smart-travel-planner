@@ -1,9 +1,11 @@
 package com.example.sargam.vacationplanner;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,29 +13,37 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.FreeBusyRequest;
+import com.google.api.services.calendar.model.FreeBusyRequestItem;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 public class SecondActivity extends AppCompatActivity {
-    Button btn;
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthListener;
-    String name,img,gender_str,quarter_str;
-    ImageView profilepic;
-    TextView Username;
-    Spinner gender,quarter;
-
-
-
+    private Button signOutButton;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private String name,img,gender_str,quarter_str;
+    private ImageView profilepic;
+    private TextView username;
+    private Spinner gender,quarter;
+    private FirebaseUser firebaseUser;
+    private GoogleAccountCredential googleAccountCredential;
+    private final String TAG = getClass().getSimpleName();
+    private com.google.api.services.calendar.Calendar client;
+    private final HttpTransport transport = AndroidHttp.newCompatibleTransport();
+    private final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
     @Override
     protected void onStart() {
@@ -47,12 +57,12 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-
-
-
-        btn=findViewById(R.id.logout);
+        // initialising Calendar API auth via OAuth
+        googleAccountCredential = GoogleAccountCredential.usingOAuth2(this, Collections.singleton(CalendarScopes.CALENDAR));
+        client = new Calendar.Builder(transport, jsonFactory, googleAccountCredential).setApplicationName(getString(R.string.app_name)).build();
+        signOutButton =findViewById(R.id.logout);
         profilepic=findViewById(R.id.imageView);
-        Username=findViewById(R.id.textView);
+        username =findViewById(R.id.textView);
         gender=findViewById(R.id.gender);
         quarter=findViewById(R.id.quarter);
 
@@ -88,51 +98,29 @@ public class SecondActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+        username.setText(firebaseUser.getDisplayName());
+        profilepic.setImageURI(firebaseUser.getPhotoUrl());
 
-
-
-        mAuth=FirebaseAuth.getInstance();
-
-        Bundle b=getIntent().getExtras();
-        name=b.getString("name");
-        img=b.getString("img");
-
-
-
-
-        Username.setText(name);
-        //profilepic.setImageResource();
-
-
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
                 if (firebaseAuth.getCurrentUser()==null)
                 {
                     Intent i=new Intent(SecondActivity.this,MainActivity.class);
                     startActivity(i);
                 }
-
             }
         };
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                mAuth.signOut();
-
-
             }
         });
-
-
-
     }
-
-
 }
