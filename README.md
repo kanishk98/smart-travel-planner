@@ -58,8 +58,23 @@ y_train = to_categorical(y_train, num_classes = 85)
 
 The above snippet explains how we're assigning numbers to classes of feature values.
 
+### `server.py`
 
+Standard Flask REST API for consuming the predictions via HTTP requests coming from the Android app. 
 
+Accepts a JSON object, converts it to the type expected by the trained model, and sends back the averaged results. Here's where all of the important stuff happens:
+
+```
+    categorize(x_in)
+
+    pred1 = loaded_model1.predict(x_in)
+    pred2 = loaded_model2.predict(x_in)
+    pred3 = loaded_model3.predict(x_in)
+
+    pred = (pred1 + pred2 + pred3) / 3
+```
+
+The rest of the work done here is mostly HTTP-related and deals with formatting the output. 
 
 ## Contributing 
 
