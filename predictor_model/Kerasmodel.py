@@ -11,7 +11,7 @@ from keras.optimizers import Adam, SGD
 from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 
-tsize = 18047
+tsize = 18047 # number of rows in the dataset
 numepochs = 100
 
 x_train = np.random.randn(tsize, 5)
