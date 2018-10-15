@@ -97,6 +97,10 @@ Accepts HTTP query parameters, fits them to the type expected by the trained mod
 
 The rest of the work done here is mostly HTTP-related and deals with formatting the output. 
 
+## Result
+
+![Screenshot of model result](/predictor_model/screenshot.PNG?raw=true "Sample GET request")
+
 ## Workflow
 The app opens to a login page where you can use your Google account to sign in which is how the app will connect to the user’s Google Calendar when it asks for permission right after logging in. The user has the option to save those credentials.
 
