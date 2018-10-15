@@ -11,17 +11,53 @@ A schedule-aware travel planner app that recommends destinations to users and co
 
 ## Model explanation
 
-The training file can be found in `predictor_model/Kerasmodel.py`. It is a Keras-based implementation of 3 different neural networks (we couldn't nail down one approach, so we tried all 3) that generates 3 `.h5` files and feeds them into `predictor_model/server.py` for consumption by the Android app. 
+The training file can be found in `predictor_model/Kerasmodel.py`. It is a Keras-based implementation of 3 different neural networks (reason for this explained below) that generates 3 `.h5` files and feeds them into `predictor_model/server.py` for consumption by the Android app. 
 
 We chose a neural network-based approach because of their simplicity as universal function approximators. We considered and disregarded the following classifiers for the following reasons:
 
 1. Decision trees (too many small variations in the dataset, will form different trees)
-2. SVM (classes of countries to travel to are very close, for patterns not expressed clearly in the values of dataset features)
+2. SVM (classes of countries to travel to are very close, high-dimensional dataset)
 3. Utility matrix - based classification: same reason as above
 
 In addition, neural networks, if not doing a bare-bones implementation, are simpler to understand and maintain, and abstract away a lot of our work. While most of deep learning is sorcery, we assumed that the layer-based implementation of deep learning will be enough to extract information from this dataset. Also, our problem is end-to-end: supply information and get most likely travel destinations.
 
 ### `Kerasmodel.py`
+
+Since this is a shallow neural network, it might overfit the training dataset. To avoid that, we use three different models and take the average of their predictions in `server.py`. The models' summary is:
+1. 5-layer neural network, tanh activation function applied throughout, Adam optimiser function
+2. 4-layer neural network, relu and softmax (for the output layer) activation function, SGD optimiser function
+3. 5-layer neural network, relu and softmax (for the output layer) activation function, Adagrad optimiser function
+
+Categorical crossentropy was the loss function we tried to minimise. 
+In each of the 3 cases, we pass the dataset through the network 100 times (epochs), in 64-sized batches. 
+
+```
+for i in range(tsize):
+	x_train[i][0] =  df['quarter'][i]
+	x_train[i][1] = df['Age'][i]
+	if df['Sex'][i] == '#NULL!':
+		x_train[i][2] = 0.5	
+	else: 
+		x_train[i][2] = df['Sex'][i]
+	x_train[i][3] = df['duration'][i]
+	if df['spend'][i] <= '50000':
+		x_train[i][4] = 1
+	elif df['spend'][i] <= '200000':
+		x_train[i][4] = 2
+	elif df['spend'][i] <= '500000':
+		x_train[i][4] = 3
+	elif df['spend'][i] <= '2000000':
+		x_train[i][4] = 4
+	elif df['spend'][i] <= '5000000':
+		x_train[i][4] = 5
+	else:
+		x_train[i][4] = 6
+	y_train[i] = df['country'][i] - 9
+y_train = to_categorical(y_train, num_classes = 85)
+```
+
+The above snippet explains how we're assigning numbers to classes of feature values.
+
 
 
 
