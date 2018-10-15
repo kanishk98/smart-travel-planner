@@ -113,8 +113,10 @@ public class SecondActivity extends AppCompatActivity {
         cur = cr.query(uri, EVENT_PROJECTION, CalendarContract.Events.VISIBLE + " = 1", null, null);
         while (cur.moveToNext()) {
             // getting query results
-            String title = cur.getString(cur.getColumnIndex(CalendarContract.Events.DTSTART));
-            Log.d(TAG, title);
+            String dtstart = cur.getString(cur.getColumnIndex(CalendarContract.Events.DTSTART));
+            String dtend = cur.getString(cur.getColumnIndex(CalendarContract.Events.DTEND));
+            Log.d(TAG + "DT Start", dtstart);
+            Log.d(TAG + "DT End", dtend);
         }
         signOutButton =findViewById(R.id.logout);
         profilepic=findViewById(R.id.imageView);
