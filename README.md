@@ -9,8 +9,8 @@ Our app attempts to solve this problem by means of a shallow neural network serv
 - [x] Login screen with Google Sign-in
 - [x] Integration with Calendar API (ContentProvider or GoogleCalendar, either is acceptable)
 - [x] Accept details screen with fields for Age, Gender, Budget, Duration of intended stay
-- [ ] Integration with REST API
-- [ ] Final result screen with backend-supplied suggestions
+- [x] Integration with REST API (please wait on @kanishk98 for this)
+- [x] Final result screen with backend-supplied suggestions
 
 ## Dependencies/permissions
 1. User permissions to access their Android Calendar

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Vacation Planner</string>
+    <string-array name="gender">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="quarter">
+        <item>Select Quarter</item>
+        <item>Jan-Mar</item>
+        <item>Apr-Jun</item>
+        <item>Jul-Sept</item>
+        <item>Oct-Dec</item>
+    </string-array>
+    <string name="username">name</string>
+    <string name="user_image">img</string>
+</resources>
