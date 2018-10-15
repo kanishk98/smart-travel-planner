@@ -62,7 +62,7 @@ The above snippet explains how we're assigning numbers to classes of feature val
 
 Standard Flask REST API for consuming the predictions via HTTP requests coming from the Android app. 
 
-Accepts a JSON object, converts it to the type expected by the trained model, and sends back the averaged results. Here's where all of the important stuff happens:
+Accepts HTTP query parameters, fits them to the type expected by the trained model, and sends back the averaged results. Here's where all of the important stuff happens:
 
 ```
     categorize(x_in)
