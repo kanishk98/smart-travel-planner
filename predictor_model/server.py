@@ -6,7 +6,7 @@ import os
 import json
 from flask import Flask
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 def load_model():
     global loaded_model1, loaded_model2, loaded_model3
@@ -125,3 +125,4 @@ def json_message():
 
 
 load_model()
+app.run()
