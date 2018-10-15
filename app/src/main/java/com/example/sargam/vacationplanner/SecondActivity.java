@@ -22,6 +22,9 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class SecondActivity extends AppCompatActivity {
     private Button signOutButton;
     private FirebaseAuth mAuth;
@@ -32,8 +35,9 @@ public class SecondActivity extends AppCompatActivity {
     private Spinner gender, quarter;
     private FirebaseUser firebaseUser;
     private final String TAG = getClass().getSimpleName();
+    private String calendarId = null;
 
-    public static final String[] EVENT_PROJECTION = new String[]{
+    private static final String[] CALENDAR_PROJECTION = new String[]{
             CalendarContract.Calendars._ID,                           // 0
             CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
             CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
@@ -44,9 +48,6 @@ public class SecondActivity extends AppCompatActivity {
     private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
     private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-    private static String calendarEmail;
-    private static String accountType;
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -62,10 +63,6 @@ public class SecondActivity extends AppCompatActivity {
         Cursor cur = null;
         ContentResolver cr = getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
-                + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
-        String[] selectionArgs = new String[]{calendarEmail, accountType};
         // Submit the query and get a Cursor object back.
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -77,7 +74,7 @@ public class SecondActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        cur = cr.query(uri, EVENT_PROJECTION, CalendarContract.Calendars.VISIBLE + " = 1", null, CalendarContract.Calendars._ID + " ASC");
+        cur = cr.query(uri, CALENDAR_PROJECTION, CalendarContract.Calendars.VISIBLE + " = 1", null, CalendarContract.Calendars._ID + " ASC");
         // Use the cursor to step through the returned records
         while (cur.moveToNext()) {
             Log.d(TAG, "inside while loop");
@@ -92,11 +89,33 @@ public class SecondActivity extends AppCompatActivity {
             accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
             ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
             Log.d(TAG, String.valueOf(calID));
-            Log.d(TAG, String.valueOf(displayName));
-            Log.d(TAG, String.valueOf(accountName));
-            Log.d(TAG, String.valueOf(ownerName));
+            if (accountName.contains("gmail.com")) {
+                // got Google account, mostly synced to Google calendar
+                this.calendarId = String.valueOf(calID);
+                Log.d(TAG, accountName);
+                break;
+            }
         }
 
+        uri = CalendarContract.Events.CONTENT_URI;
+        /*String selection = CalendarContract.Calendars._ID + " = ? AND " + CalendarContract.Events.DTSTART + " = ? AND "
+        + CalendarContract.Events.DTEND + " = ? ";
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2017, 10, 12);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2018, 10, 12);
+        String selectionArgs[] = {calendarId, String.valueOf(startDate.getTimeInMillis()), String.valueOf(endDate.getTimeInMillis())};*/
+        String[] EVENT_PROJECTION = new String[]{
+                CalendarContract.Calendars._ID,
+                CalendarContract.Events.DTSTART,
+                CalendarContract.Events.DTEND,
+        };
+        cur = cr.query(uri, EVENT_PROJECTION, CalendarContract.Events.VISIBLE + " = 1", null, null);
+        while (cur.moveToNext()) {
+            // getting query results
+            String title = cur.getString(cur.getColumnIndex(CalendarContract.Events.DTSTART));
+            Log.d(TAG, title);
+        }
         signOutButton =findViewById(R.id.logout);
         profilepic=findViewById(R.id.imageView);
         username =findViewById(R.id.textView);
