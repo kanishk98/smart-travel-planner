@@ -1,5 +1,8 @@
 # Travel Planner for Android
-A schedule-aware travel planner app that recommends destinations to users and connects them to relevant booking sources. 
+
+While people are often eager to travel to new and exciting locations, they face difficulties in deciding a time/place to travel based on their schedule and interests, respectively. A lot of efforts are spent on deciding where and when to go, and such decisions tend to be based on largely subjective opinions of people and/or travel sites. These are helpful sometimes but do not understand the user and his/her work patterns, budget, or interests. 
+
+As such this app implements said features by taking in certain necessary inputs from the user and through a Deep Learning Model (stored on an AWS server) to arrive at a suitable result which is then be routed to this app via a RESTful API and showcased as suggestions to the user. 
 
 ## Roadmap
 
@@ -8,6 +11,24 @@ A schedule-aware travel planner app that recommends destinations to users and co
 - [x] Accept details screen with fields for Age, Gender, Budget, Duration of intended stay
 - [ ] Integration with REST API (please wait on @kanishk98 for this)
 - [ ] Final result screen with backend-supplied suggestions
+
+### Dependencies/permissions
+User permissions to access their Android Calendar
+Working Internet Connection
+Android 4.0 or higher 
+
+### Audience and required input 
+The application does not have a restricted user criterion. It can be used by anybody that needs help deciding on a vacation spot. All the user needs to do is input the following details: 
+Gender 
+Budget
+Annual Quarter (Jan-Mar, Apr-Jun, Jul-Sep, Oct-Dec) 
+
+Note: The app assumes that the user has an active calendar as it will use the calendar to gain useful insights into when and for how long the user is free. 
+
+### Model 
+Our dataset is taken directly from Kaggle. It includes travel data from within the United Kingdom to several countries around the world. It includes 18047 data rows with 14 variables(including the target variable).
+
+Keras was used to design a Deep Learning model to output a destination suitable for the user as per his/her specifications with 100 epochs and an accuracy of 9.5-10%. We feel that 10% on an 81 class dataset with just 18k examples is good enough. Since it’s a continuous function, even when it errs, it gives a country similar to the one expected anyway. 
 
 ## Model explanation
 
@@ -79,3 +100,12 @@ The rest of the work done here is mostly HTTP-related and deals with formatting 
 ## Contributing 
 
 Please fork this repository and checkout to a new branch before beginning work. 
+
+### Workflow
+The app opens to a login page where you can use your Google account to sign in which is how the app will connect to the user’s Google Calendar when it asks for permission right after logging in. The user has the option to save those credentials.
+
+The next input page is where the user is requested to input the parameters he/she wants to provide and submit the form. The app then sends an API request to the server with the relevant provided information which includes the dates he/she is free after accessing their calendar.
+
+The server uses that information packet to determine the most viable destination with the Keras pre-trained model and sends back the required information back to the app which displays it aptly for the user’s perusal.
+
+Note: The app only provides suggestions and gives advice as to where the user can travel to in their ‘vacation’ period. It does not make any bookings, etc.
