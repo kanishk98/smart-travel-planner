@@ -4,30 +4,32 @@ import flask
 from flask import jsonify
 import os
 import json
+from flask import Flask
 
+app = flask.Flask(__name__)
 
 def load_model():
     global loaded_model1, loaded_model2, loaded_model3
-    json_file = open('src/model1.json', 'r')
+    json_file = open('model1.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model1 = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model1.load_weights("src/model1.h5")
+    loaded_model1.load_weights("model1.h5")
 
-    json_file = open('src/model2.json', 'r')
+    json_file = open('model2.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model2 = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model2.load_weights("src/model2.h5")
+    loaded_model2.load_weights("model2.h5")
 
-    json_file = open('src/model3.json', 'r')
+    json_file = open('model3.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model3 = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model3.load_weights("src/model3.h5")
+    loaded_model3.load_weights("model3.h5")
 
 
 def categorize(data):
