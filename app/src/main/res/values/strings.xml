@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vacation Planner</string>
+    <string name="app_name">Smart Planner</string>
     <string-array name="gender">
         <item>Select Gender</item>
         <item>Male</item>
