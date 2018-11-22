@@ -63,7 +63,7 @@ model1.compile(loss='categorical_crossentropy',
               optimizer='Adam',
               metrics=['accuracy'])
 
-model1.fit(x_train, y_train,
+history1 = model1.fit(x_train, y_train,
           epochs = numepochs,
           batch_size = 64)
 
@@ -86,7 +86,7 @@ model2.compile(loss='categorical_crossentropy',
               optimizer='SGD',
               metrics=['accuracy'])
 
-model2.fit(x_train, y_train,
+history2 = model2.fit(x_train, y_train,
           epochs = numepochs,
           batch_size = 64)
 
@@ -111,7 +111,7 @@ model3.compile(loss='categorical_crossentropy',
 
 
 
-model3.fit(x_train, y_train,
+history3 = model3.fit(x_train, y_train,
           epochs = numepochs,
           batch_size = 64)
 
@@ -135,6 +135,30 @@ with open("model3.json", "w") as json_file:
     json_file.write(model3_json)
 
 model3.save_weights("model3.h5")
+
+plt.plot(history1['loss'])
+plt.plot(history1['val_loss'])
+plt.title('Model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper right')
+plt.show()
+
+plt.plot(history2['loss'])
+plt.plot(history2['val_loss'])
+plt.title('Model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper right')
+plt.show()
+
+plt.plot(history3['loss'])
+plt.plot(history3['val_loss'])
+plt.title('Model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper right')
+plt.show()
 
 
 
