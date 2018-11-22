@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for smart travel planner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanishk98/smart-travel-planner.git"
+  },
+  "keywords": [
+    "Travel"
+  ],
+  "author": "Kanishk Kakar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanishk98/smart-travel-planner/issues"
+  },
+  "homepage": "https://github.com/kanishk98/smart-travel-planner#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
