@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const app = express();
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -12,7 +13,7 @@ app.get('/predict', (req, res) => {
 	const gender = req.query.gender;
 	const duration = req.query.duration;
 	const budget = req.query.budget;
-	fetch('http://localhost:5000/predict?quarter' + quarter + '&age=' + age + '&gender=' + gender + '&duration' + duration + '&budget' + budget)
+	fetch('http://localhost:5000/predict?quarter=' + quarter + '&age=' + age + '&gender=' + gender + '&duration=' + duration + '&budget=' + budget)
 	.then(res => {
 		console.log(res);
 	})
