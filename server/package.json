@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/kanishk98/smart-travel-planner#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "node-fetch": "^2.3.0"
   }
 }
