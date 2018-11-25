@@ -51,7 +51,6 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
@@ -162,7 +161,7 @@ public class SecondActivity extends AppCompatActivity {
         username.setText(firebaseUser.getDisplayName());
         profilepic.setImageURI(firebaseUser.getPhotoUrl());
 
-        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser()==null)
@@ -171,7 +170,7 @@ public class SecondActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             }
-        };*/
+        };
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
