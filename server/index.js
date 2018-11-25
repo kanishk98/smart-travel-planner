@@ -13,7 +13,7 @@ app.get('/predict', async(req, res) => {
 	const gender = req.query.gender;
 	const duration = req.query.duration;
 	const budget = req.query.budget;
-	const data = await fetch('http://localhost:5000/predict?quarter=' + quarter + '&age=' + age + '&gender=' + gender + '&duration=' + duration + '&budget=' + budget)
+	const data = await fetch('http://localhost:5000/predict?quarter=' + quarter + '&age=' + age + '&sex=' + gender + '&duration=' + duration + '&budget=' + budget)
 	/*.then(suc => {
 		console.log(suc);
 		res.send(suc.json());
