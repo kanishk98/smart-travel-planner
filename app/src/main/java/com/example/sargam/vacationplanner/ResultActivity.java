@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
 
-    String[] resultA={"Trail Entry"};
+    String[] resultA=new String[1];
     ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        resultA = getIntent().getStringArrayExtra("params");
         listview=findViewById(R.id.lvMain);
-
         setupList();
     }
 
